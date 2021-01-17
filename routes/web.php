@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\gmail_controller;
+use App\Http\Controllers\Auth_controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::view('/index','index');
+Route::view('/login','login');
+Route::get('/email',[gmail_controller::class,'sendgmail']);
+Route::post('/ss',[Auth_controller::class,'dangky'])->name('add.form');
+
