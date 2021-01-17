@@ -26,6 +26,17 @@
 </head><!--/head-->
 
 <body>
+	@if(Session::has('dn_tb'))
+		<script>
+			
+		Swal.fire({
+					title: 'Lỗi!',
+					text: 'Vui lòng nhập đầy đủ thông tin',
+					icon: 'error',
+					confirmButtonText: 'Đồng ý'
+					})
+		</script>
+	@endif
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -150,10 +161,10 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
-						<form id="">
+						<form id="dangnhap">
 							@csrf
-							<input type="text" placeholder="Name" />
-							<input type="email" placeholder="Email Address" />
+							<input type="email" id="email_dn" placeholder="Email" />
+							<input type="password" id="password_dn" placeholder="Password" />
 							<span>
 								<input type="checkbox" class="checkbox"> 
 								Keep me signed in
@@ -403,6 +414,45 @@
 				}
 			});
 			//ketthucdangky
+
+			//modaudangnhap
+			$('#dangnhap').submit(function(e){
+				e.preventDefault();
+				var email_dn = $('#email_dn').val();
+				var password_dn = $('#password_dn').val();
+				var _token = $('input[name=_token]').val();
+				if(email_dn==""||password_dn==""){
+					Swal.fire({
+					title: 'Lỗi!',
+					text: 'Vui lòng nhập đầy đủ thông tin',
+					icon: 'error',
+					confirmButtonText: 'Đồng ý'
+					})
+				}else{
+					$.ajax({
+					url:"{{route('dn.form')}}",
+					type:"POST",
+					data:{
+						email:email_dn,
+						password:password_dn,
+						_token:_token,
+					},
+					success:function(form_dn){
+						if(form_dn.err){
+							$("#dangnhap")[0].reset();
+							Swal.fire({
+								title: 'Lỗi!',
+								text: 'Email hoặc mật khẩu sai!!!',
+								icon: 'error',
+								confirmButtonText: 'Đồng ý'
+							})
+						}else{
+							window.location="index";
+						}
+					}
+				})
+				}
+			})
 
 			
 

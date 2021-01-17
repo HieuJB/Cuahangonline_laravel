@@ -22,4 +22,4 @@ Route::view('/index','index');
 Route::view('/login','login');
 Route::get('/email',[gmail_controller::class,'sendgmail']);
 Route::post('/ss',[Auth_controller::class,'dangky'])->name('add.form');
-
+Route::post('/ss2',[Auth_controller::class,'dangnhap'])->name('dn.form');

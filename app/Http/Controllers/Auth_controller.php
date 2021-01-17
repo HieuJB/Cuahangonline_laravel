@@ -33,4 +33,12 @@ class Auth_controller extends Controller
             Mail::to($req->email)->send(new Gmail($details));
         }
     }
+    public function dangnhap(Request $req){
+        $data = Model_table_users::where('email','=',$req->email)->first();
+        if(!$data || !Hash::check($req->password,$data->password)){
+            return response()->json(array("err" => true));
+        }else{
+            Session()->put('taikhoan',$data->name);
+        }
+    }
 }
